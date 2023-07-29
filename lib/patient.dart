@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login.dart';
 
 class PatientRegistrationView extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
@@ -11,6 +12,18 @@ class PatientRegistrationView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Cadastro de Paciente'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => Login()),
+                (route) => false,
+              );
+            },
+          )
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),

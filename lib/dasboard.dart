@@ -1,5 +1,6 @@
 import 'package:app_clin/patient.dart';
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 import 'login.dart';
 
@@ -13,13 +14,14 @@ class DashboardView extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: () {
+              // Fazer logout e retornar à tela de login
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => Login()),
                 (route) => false,
               );
             },
-          )
+          ),
         ],
       ),
       drawer: Drawer(
@@ -41,8 +43,19 @@ class DashboardView extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Médicos'),
+              leading: Icon(
+                Icons.person,
+                color: Colors.blue,
+                size: 40,
+              ),
+              title: Text(
+                'Médicos',
+                style: TextStyle(
+                  color: Colors.blue, // Alterar a cor do texto para azul
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               onTap: () {
                 Navigator.push(
                   context,
@@ -52,8 +65,19 @@ class DashboardView extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.work),
-              title: Text('Funcionários'),
+              leading: Icon(
+                Icons.work,
+                color: Colors.orange,
+                size: 40,
+              ),
+              title: Text(
+                'Funcionários',
+                style: TextStyle(
+                  color: Colors.blue, // Alterar a cor do texto para azul
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               onTap: () {
                 Navigator.push(
                   context,
@@ -63,8 +87,19 @@ class DashboardView extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.local_hospital),
-              title: Text('Pacientes'),
+              leading: Icon(
+                Icons.local_hospital,
+                color: Colors.green,
+                size: 40,
+              ),
+              title: Text(
+                'Pacientes',
+                style: TextStyle(
+                  color: Colors.blue, // Alterar a cor do texto para azul
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               onTap: () {
                 Navigator.push(
                   context,
@@ -77,96 +112,294 @@ class DashboardView extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        padding: EdgeInsets.all(16.0),
+        child: ListView(
           children: [
-            Text(
-              'Welcome Dashboard!',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
+            Card(
+              elevation: 4.0,
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Gráfico de Barras',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    AspectRatio(
+                      aspectRatio: 1.5,
+                      child: BarChart(
+                        BarChartData(
+                          alignment: BarChartAlignment.center,
+                          titlesData: FlTitlesData(show: false),
+                          borderData: FlBorderData(show: false),
+                          barGroups: [
+                            BarChartGroupData(x: 0, barsSpace: 4, barRods: [
+                              BarChartRodData(y: 10, colors: [Colors.blue]),
+                            ]),
+                            BarChartGroupData(x: 1, barsSpace: 4, barRods: [
+                              BarChartRodData(y: 15, colors: [Colors.orange]),
+                            ]),
+                            BarChartGroupData(x: 2, barsSpace: 4, barRods: [
+                              BarChartRodData(y: 20, colors: [Colors.green]),
+                            ]),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 20.0),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 20.0,
-                mainAxisSpacing: 20.0,
-                children: [
-                  _buildDashboardCard(
-                    context,
-                    'Doctor',
-                    Icons.person,
-                    Colors.blue,
-                  ),
-                  _buildDashboardCard(
-                    context,
-                    'Employee',
-                    Icons.work,
-                    Colors.orange,
-                  ),
-                  _buildDashboardCard(
-                    context,
-                    'Patient',
-                    Icons.local_hospital,
-                    Colors.green,
-                  ),
-                ],
+            Card(
+              elevation: 4.0,
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Gráfico de Linhas',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    AspectRatio(
+                      aspectRatio: 1.5,
+                      child: LineChart(
+                        LineChartData(
+                          gridData: FlGridData(show: false),
+                          titlesData: FlTitlesData(show: false),
+                          borderData: FlBorderData(show: false),
+                          lineBarsData: [
+                            LineChartBarData(
+                              spots: [
+                                FlSpot(0, 50),
+                                FlSpot(1, 70),
+                                FlSpot(2, 30),
+                                FlSpot(3, 90),
+                              ],
+                              colors: [Colors.blue],
+                              isCurved: true,
+                              dotData: FlDotData(show: false),
+                            ),
+                            LineChartBarData(
+                              spots: [
+                                FlSpot(0, 20),
+                                FlSpot(1, 40),
+                                FlSpot(2, 10),
+                                FlSpot(3, 50),
+                              ],
+                              colors: [Colors.orange],
+                              isCurved: true,
+                              dotData: FlDotData(show: false),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              elevation: 4.0,
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Gráfico de Pizza',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    AspectRatio(
+                      aspectRatio: 1.5,
+                      child: PieChart(
+                        PieChartData(
+                          sectionsSpace: 0,
+                          centerSpaceRadius: 40,
+                          sections: [
+                            PieChartSectionData(
+                                value: 30,
+                                color: Colors.blue,
+                                title: 'Ortopedia',
+                                radius: 60),
+                            PieChartSectionData(
+                                value: 50,
+                                color: Colors.orange,
+                                title: 'Cardiologia',
+                                radius: 60),
+                            PieChartSectionData(
+                                value: 20,
+                                color: Colors.green,
+                                title: 'Dermatologia',
+                                radius: 60),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              elevation: 4.0,
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Gráfico de Área',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    AspectRatio(
+                      aspectRatio: 1.5,
+                      child: LineChart(
+                        LineChartData(
+                          gridData: FlGridData(show: false),
+                          titlesData: FlTitlesData(show: false),
+                          borderData: FlBorderData(show: false),
+                          lineBarsData: [
+                            LineChartBarData(
+                              spots: [
+                                FlSpot(0, 80),
+                                FlSpot(1, 70),
+                                FlSpot(2, 90),
+                                FlSpot(3, 60),
+                              ],
+                              colors: [Colors.blue.withOpacity(0.3)],
+                              isCurved: true,
+                              dotData: FlDotData(show: false),
+                              belowBarData: BarAreaData(
+                                  show: true,
+                                  colors: [Colors.blue.withOpacity(0.3)]),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              elevation: 4.0,
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Gráfico de Radar',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    AspectRatio(
+                      aspectRatio: 1.5,
+                      child: RadarChart(
+                        RadarChartData(
+                          titlesData: FlTitlesData(show: false),
+                          borderData: FlBorderData(show: false),
+                          radarSpots: [
+                            FlSpot(0, 70),
+                            FlSpot(1, 80),
+                            FlSpot(2, 65),
+                            FlSpot(3, 90),
+                          ],
+                          radarTouchData: RadarTouchData(
+                            touchCallback: (response) => print(response),
+                            touchTooltipData: RadarTouchTooltipData(
+                              tooltipBgColor: Colors.blue.withOpacity(0.7),
+                              tooltipRoundedRadius: 8,
+                              getTooltipItems: (data) => [
+                                RadarTooltipItem(
+                                    text: 'Habilidade 1: ${data.spot.y}',
+                                    textStyle: TextStyle(color: Colors.white)),
+                                RadarTooltipItem(
+                                    text: 'Habilidade 2: ${data.spot.y}',
+                                    textStyle: TextStyle(color: Colors.white)),
+                                RadarTooltipItem(
+                                    text: 'Habilidade 3: ${data.spot.y}',
+                                    textStyle: TextStyle(color: Colors.white)),
+                                RadarTooltipItem(
+                                    text: 'Habilidade 4: ${data.spot.y}',
+                                    textStyle: TextStyle(color: Colors.white)),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              elevation: 4.0,
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Gráfico de Gantt',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    AspectRatio(
+                      aspectRatio: 1.5,
+                      child: BarChart(
+                        BarChartData(
+                          alignment: BarChartAlignment.center,
+                          titlesData: FlTitlesData(
+                            show: true,
+                            leftTitles: SideTitles(showTitles: false),
+                            bottomTitles: SideTitles(
+                                showTitles: true,
+                                getTitles: (value) => 'Projeto ${value + 1}'),
+                          ),
+                          borderData: FlBorderData(show: false),
+                          barGroups: [
+                            BarChartGroupData(x: 0, barsSpace: 4, barRods: [
+                              BarChartRodData(y: 7, colors: [Colors.blue]),
+                            ]),
+                            BarChartGroupData(x: 1, barsSpace: 4, barRods: [
+                              BarChartRodData(y: 5, colors: [Colors.orange]),
+                            ]),
+                            BarChartGroupData(x: 2, barsSpace: 4, barRods: [
+                              BarChartRodData(y: 10, colors: [Colors.green]),
+                            ]),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDashboardCard(
-    BuildContext context,
-    String title,
-    IconData iconData,
-    Color color,
-  ) {
-    return InkWell(
-      onTap: () {
-        // Navegar para a tela correspondente (Doctor, Employee, Patient)
-        if (title == 'Patient') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => PatientRegistrationView()),
-          );
-        } else {
-          // Navegar para outras telas de acordo com o título do card
-        }
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorScreen()));
-      },
-      child: Container(
-        height: 120.0,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          color: color,
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                iconData,
-                size: 48.0,
-                color: Colors.white,
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 18.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
